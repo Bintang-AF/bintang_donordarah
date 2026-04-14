@@ -271,4 +271,16 @@ namespace donordarah
             txtnama.Focus();
         }
 
-       
+        private void LoadData()
+        {
+            string connString = @"Data source=DESKTOP-E32H1C2\BINTANGAF;initial catalog=DBdonordarah;integrated security=True;TrustServerCertificate=True";
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Pendonor", conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dgvviewvalue.DataSource = dt; // Pastikan nama DataGridView kamu adalah 'Dgv'
+            }
+        }
+
+      
