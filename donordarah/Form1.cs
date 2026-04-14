@@ -90,4 +90,61 @@ namespace donordarah
             }
         }
 
-      mespace
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            lbluser.Text = "Login Sebagai: " + identitas.NamaUser;
+
+            // Optional: Tampilkan juga di Title Bar Form (bagian paling atas jendela)
+            this.Text = "Aplikasi Donor Darah - Selamat Datang " + identitas.NamaUser;
+        }
+
+        private void btntambah_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtnama.Text) || cbgoldar.SelectedIndex == -1 || cbrhesus.SelectedIndex == -1)
+            {
+                MessageBox.Show("Nama, Golongan Darah, dan Rhesus wajib diisi!", "Peringatan");
+                return;
+            }
+
+            string connString = @"Data source=DESKTOP-E32H1C2\BINTANGAF;initial catalog=DBdonordarah;integrated security=True;TrustServerCertificate=True";
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                // Query disesuaikan dengan struktur kolom di SQL Server kamu
+                string query = "INSERT INTO Pendonor (nama_pendonor, golongan_darah, rhesus, telepon, alamat) " +
+                               "VALUES (@nama, @goldar, @rhesus, @telp, @alamat)";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@nama", txtnama.Text);
+                cmd.Parameters.AddWithValue("@goldar", cbgoldar.Text);
+                cmd.Parameters.AddWithValue("@rhesus", cbrhesus.Text); // Mengambil dari ComboBox baru
+                cmd.Parameters.AddWithValue("@telp", txttelepon.Text);
+                cmd.Parameters.AddWithValue("@alamat", txtalamat.Text);
+
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Data Pendonor Berhasil Ditambahkan!", "Sukses");
+
+                    LoadData(); // Refresh DataGridView
+                    BersihkanForm();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal Simpan: " + ex.Message);
+                }
+            }
+        }
+
+      
