@@ -261,4 +261,14 @@ namespace donordarah
                 txtalamat.Text = row.Cells[5].Value.ToString();
             }
         }
+        private void BersihkanForm()
+        {
+            txtid.Clear();
+            txtnama.Clear();
+            txttelepon.Clear();
+            txtalamat.Clear();
+            cbgoldar.SelectedIndex = -1;
+            txtnama.Focus();
+        }
+
        
