@@ -247,4 +247,18 @@ namespace donordarah
             }
         }
 
-      
+        private void dgvviewvalue_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvviewvalue.Rows[e.RowIndex];
+
+                txtid.Text = row.Cells[0].Value.ToString();
+                txtnama.Text = row.Cells[1].Value.ToString();
+                cbgoldar.Text = row.Cells[2].Value.ToString(); // Kolom golongan_darah
+                cbrhesus.Text = row.Cells[3].Value.ToString(); // Kolom rhesus
+                txttelepon.Text = row.Cells[4].Value.ToString();
+                txtalamat.Text = row.Cells[5].Value.ToString();
+            }
+        }
+       
