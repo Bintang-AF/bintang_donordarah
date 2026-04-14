@@ -207,4 +207,44 @@ namespace donordarah
             }
         }
 
+        private void btnhapus_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtid.Text))
+            {
+                MessageBox.Show("Pilih data yang akan dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Poin E & F: Konfirmasi Hapus dengan Ikon Warning
+            DialogResult dr = MessageBox.Show("Data ini akan dihapus permanen. Lanjutkan?", "Hapus Data", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (dr == DialogResult.Yes)
+            {
+                string connString = @"Data source=DESKTOP-E32H1C2\BINTANGAF;initial catalog=DBdonordarah;integrated security=True;TrustServerCertificate=True";
+
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    string query = "DELETE FROM Pendonor WHERE id_pendonor=@id";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", txtid.Text);
+
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Data Berhasil Dihapus!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        btnload_Click(null, null); // Refresh tabel
+                        HitungTotal();   // Update statistik angka di pojok kanan
+                        BersihkanForm(); // Kosongkan input
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error Hapus: " + ex.Message);
+                    }
+                }
+            }
+        }
+
       
