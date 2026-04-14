@@ -6,15 +6,3 @@ using System.Threading.Tasks;
 
 namespace donordarah
 
-
-{
-    public static class Session
-    {
-        public static string Nama;
-        public static string Role;
-    }
-
-    class session
-    {
-    }
-}
