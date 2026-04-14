@@ -28,4 +28,38 @@ namespace donordarah
         {
             string connString = @"Data source=DESKTOP-E32H1C2\BINTANGAF;initial catalog=DBdonordarah;integrated security=True;TrustServerCertificate=True";
 
-          
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string query = "SELECT nama_lengkap, role FROM Pengguna WHERE username=@user AND password=@pass";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@user", txtuser.Text);
+                cmd.Parameters.AddWithValue("@pass", txtpwd.Text);
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        // --- KUNCI UTAMA: Menitipkan data ke class identitas ---
+                        identitas.NamaUser = reader["nama_lengkap"].ToString();
+                        identitas.RoleUser = reader["role"].ToString();
+
+                        MessageBox.Show("Selamat Datang, " + identitas.NamaUser);
+
+                        // Pindah Form
+                        Form1 utama = new Form1();
+                        utama.Show();
+                        this.Hide();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Username atau Password Salah!");
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
+        }
+
+       
