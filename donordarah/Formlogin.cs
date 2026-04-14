@@ -62,4 +62,23 @@ namespace donordarah
             }
         }
 
-       
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                // Jika dicentang, karakter password terlihat
+                txtpwd.UseSystemPasswordChar = false;
+            }
+            else
+            {
+                // Jika tidak dicentang, karakter disembunyikan (jadi bulat/bintang)
+                txtpwd.UseSystemPasswordChar = true;
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
