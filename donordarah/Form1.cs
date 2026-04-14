@@ -162,4 +162,49 @@ namespace donordarah
             txtnama.Focus();
         }
 
-       
+        private void btnubah_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtid.Text))
+            {
+                MessageBox.Show("Pilih data yang ingin diubah dari tabel terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Poin E: Konfirmasi sebelum melakukan aksi
+            DialogResult dialogResult = MessageBox.Show("Apakah Anda yakin ingin mengubah data ini?", "Konfirmasi Ubah", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                string connString = @"Data source=DESKTOP-E32H1C2\BINTANGAF;initial catalog=DBdonordarah;integrated security=True;TrustServerCertificate=True";
+
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    // Gunakan nama kolom: nama_pendonor, golongan_darah, telepon, alamat
+                    string query = "UPDATE Pendonor SET nama_pendonor=@nama, golongan_darah=@goldar, telepon=@telp, alamat=@alamat " +
+                                   "WHERE id_pendonor=@id";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", txtid.Text);
+                    cmd.Parameters.AddWithValue("@nama", txtnama.Text);
+                    cmd.Parameters.AddWithValue("@goldar", cbgoldar.Text);
+                    cmd.Parameters.AddWithValue("@telp", txttelepon.Text);
+                    cmd.Parameters.AddWithValue("@alamat", txtalamat.Text); ;
+
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Data Berhasil Diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        btnload_Click(null, null); // Refresh tabel
+                        BersihkanForm();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error Ubah: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+      
