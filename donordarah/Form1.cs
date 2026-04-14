@@ -147,4 +147,19 @@ namespace donordarah
             }
         }
 
-      
+        private void lblalamat_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnbersihkan_Click(object sender, EventArgs e)
+        {
+            txtid.Clear();
+            txtnama.Clear();
+            txttelepon.Clear(); // Ganti yang sebelumnya berat
+            txtalamat.Clear();
+            cbgoldar.SelectedIndex = -1;
+            txtnama.Focus();
+        }
+
+       
