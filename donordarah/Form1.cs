@@ -283,4 +283,45 @@ namespace donordarah
             }
         }
 
-      
+        private void txtnama_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+            string connString = @"Data source=DESKTOP-E32H1C2\BINTANGAF;initial catalog=DBdonordarah;integrated security=True;TrustServerCertificate=True";
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                try
+                {
+                    // Query langsung mencari ke kolom nama_pendonor
+                    string query = "SELECT * FROM Pendonor WHERE nama_pendonor LIKE @nama + '%'";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    // Mengambil input dari txtcari
+                    cmd.Parameters.AddWithValue("@nama", txtcari.Text.Trim());
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+
+                    conn.Open();
+                    da.Fill(dt);
+
+                    // Update isi tabel secara otomatis
+                    dgvviewvalue.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error saat mencari: " + ex.Message);
+                }
+            }
+        }
+
+        private void dgvviewvalue_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+    } // Penutup Class
+} // Penutup Namespace
