@@ -46,4 +46,48 @@ namespace donordarah
             }
         }
 
-      
+        private void btnload_Click(object sender, EventArgs e)
+        {
+            // Tambahkan TrustServerCertificate=True jika koneksi ditolak karena SSL/Sertifikat
+            string connString = @"Data source=DESKTOP-E32H1C2\BINTANGAF;initial catalog=DBdonordarah;integrated security=True;TrustServerCertificate=True";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    string query = "SELECT * FROM Pendonor";
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+
+                    conn.Open();
+                    adapter.Fill(dt);
+
+                    // 1. Pastikan nama DataGridView di UI kamu adalah 'Dgv'
+                    dgvviewvalue.DataSource = dt;
+
+                    // 2. Panggil fungsi hitung total agar angka statistik juga terupdate
+                    HitungTotal();
+
+                    MessageBox.Show("Data berhasil ditampilkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Terjadi kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // 3. Logika Role (Pastikan menggunakan Identitas sesuai diskusi kita sebelumnya)
+            // Jika masih merah, ganti 'Session' menjadi 'Identitas'
+            if (identitas.RoleUser == "Petugas")
+            {
+                btnhapus.Enabled = false;
+                // lblStatus sesuaikan dengan nama label di desain kamu
+                lbluser.Text = "Login sebagai: Petugas (" + identitas.NamaUser + ")";
+            }
+            else
+            {
+                lbluser.Text = "Login sebagai: Admin (" + identitas.NamaUser + ")";
+            }
+        }
+
+      mespace
