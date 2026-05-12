@@ -48,4 +48,45 @@ namespace donordarah
         }
 
         // 3. FUNGSI PENCARIAN PENDONOR (MENGGUNAKAN SP UCP 2)
-       
+        private void btnCari_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtCari.Text))
+            {
+                MessageBox.Show("Masukkan nama pendonor terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_CariPendonorUntukTransaksi", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Keyword", txtCari.Text.Trim());
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        // Jika ketemu, isi ke text box confirm
+                        txtIdPendonor.Text = reader["id_pendonor"].ToString();
+                        txtNamaConfirm.Text = reader["nama_pendonor"].ToString();
+                        txtGoldarConfirm.Text = reader["golongan_darah"].ToString();
+                        MessageBox.Show("Pendonor ditemukan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data pendonor tidak ditemukan di sistem.", "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        BersihkanConfirm();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error pencarian: " + ex.Message, "Error");
+                }
+            }
+        }
+
+        // 4. FUNGSI SIMPAN TRANSAKSI (MENGGUNAKAN SP UCP 2)
+      
