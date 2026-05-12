@@ -49,7 +49,7 @@ namespace donordarah
                         MessageBox.Show("Selamat Datang, " + identitas.NamaUser);
 
                         // Pindah Form
-                        Form1 utama = new Form1();
+                        dashboard utama = new dashboard();
                         utama.Show();
                         this.Hide();
                     }
