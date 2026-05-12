@@ -121,4 +121,126 @@ namespace donordarah
             }
         }
 
-       
+        private void btnubah_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtid.Text))
+            {
+                MessageBox.Show("Pilih data yang ingin diubah dari tabel terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult dialogResult = MessageBox.Show("Apakah Anda yakin ingin mengubah data ini?", "Konfirmasi Ubah", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    string query = "UPDATE Pendonor SET nama_pendonor=@nama, golongan_darah=@goldar, rhesus=@rhesus, telepon=@telp, alamat=@alamat WHERE id_pendonor=@id";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", txtid.Text);
+                    cmd.Parameters.AddWithValue("@nama", txtnama.Text);
+                    cmd.Parameters.AddWithValue("@goldar", cbgoldar.Text);
+                    cmd.Parameters.AddWithValue("@rhesus", cbrhesus.Text); // Perbaikan: Menambahkan rhesus di fitur ubah
+                    cmd.Parameters.AddWithValue("@telp", txttelepon.Text);
+                    cmd.Parameters.AddWithValue("@alamat", txtalamat.Text);
+
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Data Berhasil Diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData();
+                        BersihkanForm();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error Ubah: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void btnhapus_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtid.Text))
+            {
+                MessageBox.Show("Pilih data yang akan dihapus dari tabel!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show("Data ini akan dihapus permanen. Lanjutkan?", "Hapus Data", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dr == DialogResult.Yes)
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    string query = "DELETE FROM Pendonor WHERE id_pendonor=@id";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", txtid.Text);
+
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Data Berhasil Dihapus!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData();
+                        BersihkanForm();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error Hapus: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void btnbersihkan_Click(object sender, EventArgs e)
+        {
+            BersihkanForm();
+        }
+
+        // --- EVENT KLIK TABEL (Pindah Data dari Tabel ke TextBox) ---
+        private void dgvviewvalue_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvviewvalue.Rows[e.RowIndex];
+
+                txtid.Text = row.Cells[0].Value.ToString();
+                txtnama.Text = row.Cells[1].Value.ToString();
+                cbgoldar.Text = row.Cells[2].Value.ToString();
+                cbrhesus.Text = row.Cells[3].Value.ToString();
+                txttelepon.Text = row.Cells[4].Value.ToString();
+                txtalamat.Text = row.Cells[5].Value.ToString();
+            }
+        }
+
+        // --- EVENT PENCARIAN (Langsung mencari saat diketik) ---
+        private void txtcari_TextChanged(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                try
+                {
+                    string query = "SELECT * FROM Pendonor WHERE nama_pendonor LIKE @nama + '%'";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@nama", txtcari.Text.Trim());
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+
+                    conn.Open();
+                    da.Fill(dt);
+                    dgvviewvalue.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error saat mencari: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void UC_Load_1(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
