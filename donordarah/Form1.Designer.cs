@@ -31,27 +31,27 @@
             this.btnload = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtid = new System.Windows.Forms.TextBox();
-            this.txtnama = new System.Windows.Forms.TextBox();
-            this.cbgoldar = new System.Windows.Forms.ComboBox();
+            this.cbrhesus = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblnama = new System.Windows.Forms.Label();
+            this.lblgoldar = new System.Windows.Forms.Label();
+            this.lbltelepon = new System.Windows.Forms.Label();
+            this.lblalamat = new System.Windows.Forms.Label();
             this.txttelepon = new System.Windows.Forms.TextBox();
             this.txtalamat = new System.Windows.Forms.TextBox();
+            this.cbgoldar = new System.Windows.Forms.ComboBox();
+            this.txtnama = new System.Windows.Forms.TextBox();
+            this.lblid = new System.Windows.Forms.Label();
+            this.txtid = new System.Windows.Forms.TextBox();
             this.btntambah = new System.Windows.Forms.Button();
             this.btnubah = new System.Windows.Forms.Button();
             this.btnhapus = new System.Windows.Forms.Button();
             this.btnbersihkan = new System.Windows.Forms.Button();
             this.dgvviewvalue = new System.Windows.Forms.DataGridView();
-            this.lblid = new System.Windows.Forms.Label();
-            this.lblnama = new System.Windows.Forms.Label();
-            this.lblgoldar = new System.Windows.Forms.Label();
-            this.lbltelepon = new System.Windows.Forms.Label();
-            this.lblalamat = new System.Windows.Forms.Label();
             this.txtcari = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lbluser = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cbrhesus = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvviewvalue)).BeginInit();
             this.SuspendLayout();
@@ -96,23 +96,77 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data Pendonor";
             // 
-            // txtid
+            // cbrhesus
             // 
-            this.txtid.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.txtid.Location = new System.Drawing.Point(191, 38);
-            this.txtid.Name = "txtid";
-            this.txtid.ReadOnly = true;
-            this.txtid.Size = new System.Drawing.Size(495, 26);
-            this.txtid.TabIndex = 5;
-            this.txtid.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.cbrhesus.FormattingEnabled = true;
+            this.cbrhesus.Items.AddRange(new object[] {
+            "+",
+            "-"});
+            this.cbrhesus.Location = new System.Drawing.Point(191, 175);
+            this.cbrhesus.Name = "cbrhesus";
+            this.cbrhesus.Size = new System.Drawing.Size(121, 28);
+            this.cbrhesus.TabIndex = 12;
             // 
-            // txtnama
+            // label4
             // 
-            this.txtnama.Location = new System.Drawing.Point(191, 80);
-            this.txtnama.Name = "txtnama";
-            this.txtnama.Size = new System.Drawing.Size(495, 26);
-            this.txtnama.TabIndex = 0;
-            this.txtnama.TextChanged += new System.EventHandler(this.txtnama_TextChanged);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(32, 175);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 20);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Rhesus";
+            // 
+            // lblnama
+            // 
+            this.lblnama.AutoSize = true;
+            this.lblnama.Location = new System.Drawing.Point(32, 85);
+            this.lblnama.Name = "lblnama";
+            this.lblnama.Size = new System.Drawing.Size(51, 20);
+            this.lblnama.TabIndex = 0;
+            this.lblnama.Text = "Nama";
+            // 
+            // lblgoldar
+            // 
+            this.lblgoldar.AutoSize = true;
+            this.lblgoldar.Location = new System.Drawing.Point(32, 137);
+            this.lblgoldar.Name = "lblgoldar";
+            this.lblgoldar.Size = new System.Drawing.Size(124, 20);
+            this.lblgoldar.TabIndex = 1;
+            this.lblgoldar.Text = "Golongan darah";
+            this.lblgoldar.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // lbltelepon
+            // 
+            this.lbltelepon.AutoSize = true;
+            this.lbltelepon.Location = new System.Drawing.Point(32, 224);
+            this.lbltelepon.Name = "lbltelepon";
+            this.lbltelepon.Size = new System.Drawing.Size(113, 20);
+            this.lbltelepon.TabIndex = 2;
+            this.lbltelepon.Text = "Nomor telepon";
+            this.lbltelepon.Click += new System.EventHandler(this.lblalamat_Click);
+            // 
+            // lblalamat
+            // 
+            this.lblalamat.AutoSize = true;
+            this.lblalamat.Location = new System.Drawing.Point(32, 271);
+            this.lblalamat.Name = "lblalamat";
+            this.lblalamat.Size = new System.Drawing.Size(57, 20);
+            this.lblalamat.TabIndex = 3;
+            this.lblalamat.Text = "alamat";
+            // 
+            // txttelepon
+            // 
+            this.txttelepon.Location = new System.Drawing.Point(191, 224);
+            this.txttelepon.Name = "txttelepon";
+            this.txttelepon.Size = new System.Drawing.Size(218, 26);
+            this.txttelepon.TabIndex = 2;
+            // 
+            // txtalamat
+            // 
+            this.txtalamat.Location = new System.Drawing.Point(191, 267);
+            this.txtalamat.Name = "txtalamat";
+            this.txtalamat.Size = new System.Drawing.Size(495, 26);
+            this.txtalamat.TabIndex = 3;
             // 
             // cbgoldar
             // 
@@ -128,19 +182,32 @@
             this.cbgoldar.Size = new System.Drawing.Size(121, 28);
             this.cbgoldar.TabIndex = 1;
             // 
-            // txttelepon
+            // txtnama
             // 
-            this.txttelepon.Location = new System.Drawing.Point(191, 224);
-            this.txttelepon.Name = "txttelepon";
-            this.txttelepon.Size = new System.Drawing.Size(218, 26);
-            this.txttelepon.TabIndex = 2;
+            this.txtnama.Location = new System.Drawing.Point(191, 80);
+            this.txtnama.Name = "txtnama";
+            this.txtnama.Size = new System.Drawing.Size(495, 26);
+            this.txtnama.TabIndex = 0;
+            this.txtnama.TextChanged += new System.EventHandler(this.txtnama_TextChanged);
             // 
-            // txtalamat
+            // lblid
             // 
-            this.txtalamat.Location = new System.Drawing.Point(191, 267);
-            this.txtalamat.Name = "txtalamat";
-            this.txtalamat.Size = new System.Drawing.Size(495, 26);
-            this.txtalamat.TabIndex = 3;
+            this.lblid.AutoSize = true;
+            this.lblid.Location = new System.Drawing.Point(32, 44);
+            this.lblid.Name = "lblid";
+            this.lblid.Size = new System.Drawing.Size(26, 20);
+            this.lblid.TabIndex = 10;
+            this.lblid.Text = "ID";
+            // 
+            // txtid
+            // 
+            this.txtid.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.txtid.Location = new System.Drawing.Point(191, 38);
+            this.txtid.Name = "txtid";
+            this.txtid.ReadOnly = true;
+            this.txtid.Size = new System.Drawing.Size(495, 26);
+            this.txtid.TabIndex = 5;
+            this.txtid.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // btntambah
             // 
@@ -195,53 +262,6 @@
             this.dgvviewvalue.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvviewvalue_CellClick);
             this.dgvviewvalue.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvviewvalue_CellContentClick);
             // 
-            // lblid
-            // 
-            this.lblid.AutoSize = true;
-            this.lblid.Location = new System.Drawing.Point(32, 44);
-            this.lblid.Name = "lblid";
-            this.lblid.Size = new System.Drawing.Size(26, 20);
-            this.lblid.TabIndex = 10;
-            this.lblid.Text = "ID";
-            // 
-            // lblnama
-            // 
-            this.lblnama.AutoSize = true;
-            this.lblnama.Location = new System.Drawing.Point(32, 85);
-            this.lblnama.Name = "lblnama";
-            this.lblnama.Size = new System.Drawing.Size(51, 20);
-            this.lblnama.TabIndex = 0;
-            this.lblnama.Text = "Nama";
-            // 
-            // lblgoldar
-            // 
-            this.lblgoldar.AutoSize = true;
-            this.lblgoldar.Location = new System.Drawing.Point(32, 137);
-            this.lblgoldar.Name = "lblgoldar";
-            this.lblgoldar.Size = new System.Drawing.Size(124, 20);
-            this.lblgoldar.TabIndex = 1;
-            this.lblgoldar.Text = "Golongan darah";
-            this.lblgoldar.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // lbltelepon
-            // 
-            this.lbltelepon.AutoSize = true;
-            this.lbltelepon.Location = new System.Drawing.Point(32, 224);
-            this.lbltelepon.Name = "lbltelepon";
-            this.lbltelepon.Size = new System.Drawing.Size(113, 20);
-            this.lbltelepon.TabIndex = 2;
-            this.lbltelepon.Text = "Nomor telepon";
-            this.lbltelepon.Click += new System.EventHandler(this.lblalamat_Click);
-            // 
-            // lblalamat
-            // 
-            this.lblalamat.AutoSize = true;
-            this.lblalamat.Location = new System.Drawing.Point(32, 271);
-            this.lblalamat.Name = "lblalamat";
-            this.lblalamat.Size = new System.Drawing.Size(57, 20);
-            this.lblalamat.TabIndex = 3;
-            this.lblalamat.Text = "alamat";
-            // 
             // txtcari
             // 
             this.txtcari.Location = new System.Drawing.Point(443, 576);
@@ -275,26 +295,6 @@
             this.lblTotal.Size = new System.Drawing.Size(83, 20);
             this.lblTotal.TabIndex = 14;
             this.lblTotal.Text = "Total Data";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(32, 175);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 20);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Rhesus";
-            // 
-            // cbrhesus
-            // 
-            this.cbrhesus.FormattingEnabled = true;
-            this.cbrhesus.Items.AddRange(new object[] {
-            "+",
-            "-"});
-            this.cbrhesus.Location = new System.Drawing.Point(191, 175);
-            this.cbrhesus.Name = "cbrhesus";
-            this.cbrhesus.Size = new System.Drawing.Size(121, 28);
-            this.cbrhesus.TabIndex = 12;
             // 
             // Form1
             // 
