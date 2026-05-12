@@ -26,7 +26,7 @@ namespace donordarah
             {
                 try
                 {
-                    // Query untuk menghitung jumlah baris di tabel Pendonor
+                    // menghitung jumlah baris di tabel Pendonor
                     string query = "SELECT COUNT(*) FROM Pendonor";
                     SqlCommand cmd = new SqlCommand(query, conn);
 
@@ -35,12 +35,12 @@ namespace donordarah
                     // ExecuteScalar mengambil baris pertama kolom pertama (hasil COUNT)
                     int total = (int)cmd.ExecuteScalar();
 
-                    // Tampilkan ke label. Pastikan nama label di desain kamu benar (misal: lblTotal)
+                   
                     lblTotal.Text = "Total Data: " + total.ToString();
                 }
                 catch (Exception ex)
                 {
-                    // Tidak perlu pakai MessageBox di sini agar tidak mengganggu user setiap kali refresh
+                  
                     Console.WriteLine("Gagal hitung total: " + ex.Message);
                 }
             }
@@ -48,7 +48,6 @@ namespace donordarah
 
         private void btnload_Click(object sender, EventArgs e)
         {
-            // Tambahkan TrustServerCertificate=True jika koneksi ditolak karena SSL/Sertifikat
             string connString = @"Data source=DESKTOP-E32H1C2\BINTANGAF;initial catalog=DBdonordarah;integrated security=True;TrustServerCertificate=True";
 
             try
@@ -62,10 +61,8 @@ namespace donordarah
                     conn.Open();
                     adapter.Fill(dt);
 
-                    // 1. Pastikan nama DataGridView di UI kamu adalah 'Dgv'
                     dgvviewvalue.DataSource = dt;
 
-                    // 2. Panggil fungsi hitung total agar angka statistik juga terupdate
                     HitungTotal();
 
                     MessageBox.Show("Data berhasil ditampilkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -76,12 +73,10 @@ namespace donordarah
                 MessageBox.Show("Terjadi kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // 3. Logika Role (Pastikan menggunakan Identitas sesuai diskusi kita sebelumnya)
-            // Jika masih merah, ganti 'Session' menjadi 'Identitas'
+           
             if (identitas.RoleUser == "Petugas")
             {
                 btnhapus.Enabled = false;
-                // lblStatus sesuaikan dengan nama label di desain kamu
                 lbluser.Text = "Login sebagai: Petugas (" + identitas.NamaUser + ")";
             }
             else
@@ -104,7 +99,6 @@ namespace donordarah
         {
             lbluser.Text = "Login Sebagai: " + identitas.NamaUser;
 
-            // Optional: Tampilkan juga di Title Bar Form (bagian paling atas jendela)
             this.Text = "Aplikasi Donor Darah - Selamat Datang " + identitas.NamaUser;
         }
 
@@ -120,14 +114,13 @@ namespace donordarah
 
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                // Query disesuaikan dengan struktur kolom di SQL Server kamu
                 string query = "INSERT INTO Pendonor (nama_pendonor, golongan_darah, rhesus, telepon, alamat) " +
                                "VALUES (@nama, @goldar, @rhesus, @telp, @alamat)";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@nama", txtnama.Text);
                 cmd.Parameters.AddWithValue("@goldar", cbgoldar.Text);
-                cmd.Parameters.AddWithValue("@rhesus", cbrhesus.Text); // Mengambil dari ComboBox baru
+                cmd.Parameters.AddWithValue("@rhesus", cbrhesus.Text); 
                 cmd.Parameters.AddWithValue("@telp", txttelepon.Text);
                 cmd.Parameters.AddWithValue("@alamat", txtalamat.Text);
 
@@ -137,7 +130,7 @@ namespace donordarah
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Data Pendonor Berhasil Ditambahkan!", "Sukses");
 
-                    LoadData(); // Refresh DataGridView
+                    LoadData();
                     BersihkanForm();
                 }
                 catch (Exception ex)
@@ -156,7 +149,7 @@ namespace donordarah
         {
             txtid.Clear();
             txtnama.Clear();
-            txttelepon.Clear(); // Ganti yang sebelumnya berat
+            txttelepon.Clear();
             txtalamat.Clear();
             cbgoldar.SelectedIndex = -1;
             txtnama.Focus();
@@ -170,7 +163,6 @@ namespace donordarah
                 return;
             }
 
-            // Poin E: Konfirmasi sebelum melakukan aksi
             DialogResult dialogResult = MessageBox.Show("Apakah Anda yakin ingin mengubah data ini?", "Konfirmasi Ubah", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dialogResult == DialogResult.Yes)
@@ -179,7 +171,6 @@ namespace donordarah
 
                 using (SqlConnection conn = new SqlConnection(connString))
                 {
-                    // Gunakan nama kolom: nama_pendonor, golongan_darah, telepon, alamat
                     string query = "UPDATE Pendonor SET nama_pendonor=@nama, golongan_darah=@goldar, telepon=@telp, alamat=@alamat " +
                                    "WHERE id_pendonor=@id";
 
@@ -196,7 +187,7 @@ namespace donordarah
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Data Berhasil Diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        btnload_Click(null, null); // Refresh tabel
+                        btnload_Click(null, null); 
                         BersihkanForm();
                     }
                     catch (Exception ex)
@@ -215,7 +206,6 @@ namespace donordarah
                 return;
             }
 
-            // Poin E & F: Konfirmasi Hapus dengan Ikon Warning
             DialogResult dr = MessageBox.Show("Data ini akan dihapus permanen. Lanjutkan?", "Hapus Data", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (dr == DialogResult.Yes)
@@ -235,9 +225,9 @@ namespace donordarah
 
                         MessageBox.Show("Data Berhasil Dihapus!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        btnload_Click(null, null); // Refresh tabel
-                        HitungTotal();   // Update statistik angka di pojok kanan
-                        BersihkanForm(); // Kosongkan input
+                        btnload_Click(null, null); 
+                        HitungTotal();   
+                        BersihkanForm(); 
                     }
                     catch (Exception ex)
                     {
@@ -255,8 +245,8 @@ namespace donordarah
 
                 txtid.Text = row.Cells[0].Value.ToString();
                 txtnama.Text = row.Cells[1].Value.ToString();
-                cbgoldar.Text = row.Cells[2].Value.ToString(); // Kolom golongan_darah
-                cbrhesus.Text = row.Cells[3].Value.ToString(); // Kolom rhesus
+                cbgoldar.Text = row.Cells[2].Value.ToString(); 
+                cbrhesus.Text = row.Cells[3].Value.ToString(); 
                 txttelepon.Text = row.Cells[4].Value.ToString();
                 txtalamat.Text = row.Cells[5].Value.ToString();
             }
@@ -279,7 +269,7 @@ namespace donordarah
                 SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Pendonor", conn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-                dgvviewvalue.DataSource = dt; // Pastikan nama DataGridView kamu adalah 'Dgv'
+                dgvviewvalue.DataSource = dt; 
             }
         }
 
@@ -296,11 +286,11 @@ namespace donordarah
             {
                 try
                 {
-                    // Query langsung mencari ke kolom nama_pendonor
+                    
                     string query = "SELECT * FROM Pendonor WHERE nama_pendonor LIKE @nama + '%'";
                     SqlCommand cmd = new SqlCommand(query, conn);
 
-                    // Mengambil input dari txtcari
+                    
                     cmd.Parameters.AddWithValue("@nama", txtcari.Text.Trim());
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -309,7 +299,7 @@ namespace donordarah
                     conn.Open();
                     da.Fill(dt);
 
-                    // Update isi tabel secara otomatis
+                   
                     dgvviewvalue.DataSource = dt;
                 }
                 catch (Exception ex)
