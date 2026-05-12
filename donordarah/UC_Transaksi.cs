@@ -89,4 +89,55 @@ namespace donordarah
         }
 
         // 4. FUNGSI SIMPAN TRANSAKSI (MENGGUNAKAN SP UCP 2)
-      
+        private void btnSimpan_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtIdPendonor.Text) || string.IsNullOrEmpty(txtIdKantong.Text))
+            {
+                MessageBox.Show("Pastikan Anda sudah mencari Pendonor dan mengisi ID Kantong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_InsertTransaksi", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@id_pendonor", txtIdPendonor.Text);
+                cmd.Parameters.AddWithValue("@id_user", 1); // Ganti dengan identitas.IdUser jika kamu pakai ID angka untuk petugas
+                cmd.Parameters.AddWithValue("@id_kantong", txtIdKantong.Text);
+                cmd.Parameters.AddWithValue("@tanggal_donor", dtpTanggal.Value.Date);
+
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Transaksi Berhasil Disimpan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    LoadRiwayat(); // Refresh tabel
+                    btnBatal_Click(null, null); // Bersihkan form
+                }
+                catch (SqlException ex)
+                {
+                    // Menangkap RAISERROR dari SQL Server (Misal: Kantong Duplikat)
+                    MessageBox.Show(ex.Message, "Database Menolak", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        // 5. FUNGSI BATAL/BERSIHKAN
+        private void btnBatal_Click(object sender, EventArgs e)
+        {
+            txtCari.Clear();
+            BersihkanConfirm();
+            txtIdKantong.Clear();
+            dtpTanggal.Value = DateTime.Now;
+        }
+
+        private void BersihkanConfirm()
+        {
+            txtIdPendonor.Clear();
+            txtNamaConfirm.Clear();
+            txtGoldarConfirm.Clear();
+        }
+    }
+}
