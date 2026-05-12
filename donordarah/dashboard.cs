@@ -95,3 +95,72 @@ namespace donordarah
             ucDash.Dock = DockStyle.Fill;
             panelKonten.Controls.Add(ucDash);
         }
+
+        private void guna2Button4_Click(object sender, EventArgs e)
+        {
+            // 1. Ubah Judul Header di atas
+            lblJudulHalaman.Text = "Transaksi Donor Darah";
+
+            // 2. Pastikan panel penampung terlihat
+            panelKonten.Visible = true;
+
+            // 3. Bersihkan halaman sebelumnya dari memori agar ringan
+            foreach (Control c in panelKonten.Controls)
+            {
+                c.Dispose();
+            }
+            panelKonten.Controls.Clear();
+
+            // 4. Panggil User Control Transaksi yang baru kita buat
+            UC_Transaksi ucTrans = new UC_Transaksi();
+            ucTrans.Dock = DockStyle.Fill;
+            panelKonten.Controls.Add(ucTrans);
+
+            // 5. Paksa panel tampil di paling depan
+            panelKonten.BringToFront();
+        }
+
+        private void guna2Button3_Click(object sender, EventArgs e)
+        {
+            lblJudulHalaman.Text = "Manajemen Stok Darah";
+            panelKonten.Visible = true;
+
+            // Bersihkan panel agar tidak tumpang tindih
+            foreach (Control c in panelKonten.Controls)
+            {
+                c.Dispose();
+            }
+            panelKonten.Controls.Clear();
+
+            // Panggil halaman Stok Darah
+            UC_StokDarah ucStok = new UC_StokDarah();
+            ucStok.Dock = DockStyle.Fill;
+            panelKonten.Controls.Add(ucStok);
+            panelKonten.BringToFront();
+        }
+
+        private void btnManajemenUser_Click(object sender, EventArgs e)
+        {
+            // 1. Ubah Judul di Header
+            lblJudulHalaman.Text = "Manajemen Pengguna";
+
+            // 2. Pastikan Panel Konten terlihat
+            panelKonten.Visible = true;
+
+            // 3. Bersihkan panel agar halaman sebelumnya tidak tumpang tindih
+            foreach (Control c in panelKonten.Controls)
+            {
+                c.Dispose();
+            }
+            panelKonten.Controls.Clear();
+
+            // 4. Panggil User Control Manajemen User (UC_User)
+            UC_User ucUser = new UC_User();
+            ucUser.Dock = DockStyle.Fill;
+            panelKonten.Controls.Add(ucUser);
+
+            // 5. Bawa ke depan agar tidak tertutup komponen lain
+            panelKonten.BringToFront();
+        }
+    }
+}
